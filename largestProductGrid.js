@@ -2,7 +2,7 @@
   Largest product in grid - largest product of 4 adjacent elements.
 */
 
-const {flatten, transpose} = require('ramda')
+const {reverse, transpose} = require('ramda')
 const max = nList => Math.max(...nList)
 
 const srcGrid =
@@ -45,11 +45,20 @@ const getDiag = (ary, r, c, result = []) =>
     ? result
     : getDiag(ary, r+1, c-1, result.concat(Number(ary[r][c-1])))
 
-const transposeDiag = aryTwoD =>
-  aryTwoD[0]
+const transposeDiag = aryTwoD => {
+  const h1 = aryTwoD[0]
     .map((v,i,a) =>
       [Number(v)].concat(getDiag(aryTwoD.slice(1), 0, i)))
-
+  const h2 = reverse(aryTwoD)[0]
+    .map((v,i,a) =>
+      [Number(v)].concat(getDiag(reverse(aryTwoD).slice(1), 0, i)))
+  return h1.concat(h2)
+}
 // solve for horizontal, vertical and diagonal products.
-console.log(max(solveRC(srcGrid).concat(solveRC(transpose(srcGrid))).concat(solveRC(transposeDiag(srcGrid)))))
+console.log(
+  max(
+    solveRC(srcGrid)
+      .concat(solveRC(transpose(srcGrid)))
+      .concat(solveRC(transposeDiag(srcGrid)))
+  ))
 // => 70600674
