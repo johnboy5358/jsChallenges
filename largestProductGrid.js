@@ -38,8 +38,7 @@ const solveRC = ary2d =>
     .map(row => row.map((v, i, a) => [v, a[i + 1], a[i + 2], a[i + 3]]))
     .map(row => row.filter(v => !v.includes(undefined)))
     .map(row => row.map(grpOf4 => grpOf4.reduce((p, c) => p * c, 1)))
-    .map(ary => max(ary))
-    .map(ary => ary))]
+    .map(ary => max(ary)))]
 
 const getDiag = (ary, r, c, result = []) =>
   (!c || !ary[r][c])
