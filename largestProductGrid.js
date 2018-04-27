@@ -41,17 +41,15 @@ const solveRC = ary2d =>
     .map(ary => max(ary))
     .map(ary => ary))]
 
-const getDiag = (ary, r, c, result = []) => {
-  return (!c || ary[r][c] === undefined)
+const getDiag = (ary, r, c, result = []) =>
+  (!c || !ary[r][c])
     ? result
     : getDiag(ary, r+1, c-1, result.concat(Number(ary[r][c-1])))
-}
+
 const transposeDiag = aryTwoD =>
   aryTwoD[0]
-    .map((v,i,a) => {
-      return [Number(v)].concat(getDiag(aryTwoD.slice(1), 0, i))
-    })
-    .filter(ary => ary.length > 3)
+    .map((v,i,a) =>
+      [Number(v)].concat(getDiag(aryTwoD.slice(1), 0, i)))
 
 // solve for horizontal, vertical and diagonal products.
 console.log(max(solveRC(srcGrid).concat(solveRC(transpose(srcGrid))).concat(solveRC(transposeDiag(srcGrid)))))
